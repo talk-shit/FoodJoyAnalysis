@@ -1,4 +1,3 @@
-// This function could be triggered by a webhook or a regular polling mechanism
 function fetchData() {
     fetch('https://food-joy-analysis.vercel.app/api/calorie-analysis', {
         method: 'POST',
@@ -15,5 +14,5 @@ function fetchData() {
     .catch(error => console.error('Error fetching data:', error));
 }
 
-// Call fetchData periodically if needed, or trigger based on specific events
-fetchData();
+// Call fetchData every 5000 milliseconds (5 seconds)
+setInterval(fetchData, 3000);
