@@ -1,23 +1,27 @@
-function fetchData() {
-    // URL of your serverless function
-    const url = 'https://food-joy-analysis.vercel.app/api/calorie-analysis';
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch data from your serverless function
+    function fetchData() {
+        fetch('https://food-joy-analysis.vercel.app/api/calorie-analysis', {
+            method: 'POST', // Using POST as specified
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ request: 'Fetch Data' }) // Send any necessary data
+        })
+        .then(response => response.json()) // Parse JSON response
+        .then(data => {
+            console.log('Data received:', data);
+            // Update webpage content
+            document.getElementById('data-display').innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('data-display').innerText = 'Failed to load data.';
+        });
+    }
 
-    // Fetch data from the server
-    fetch(url, {
-        method: 'POST', // or 'GET', depending on your server setup
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ request: 'Fetch Data' }) // Adjust or remove if your API doesn't need a body for GET requests
-    })
-    .then(response => response.json()) // Convert response to JSON
-    .then(data => {
-        // Update your webpage's content
-        console.log('Data received:', data);
-        document.getElementById('data-display').innerText = JSON.stringify(data, null, 2);
-    })
-    .catch(error => console.error('Error fetching data:', error));
-}
-
-// Call fetchData every 5000 milliseconds (5 seconds)
-setInterval(fetchData, 5000);
+    // Optionally, fetch data on an interval if updates are needed regularly
+    setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    // Fetch data immediately when the page loads
+    fetchData();
+});
